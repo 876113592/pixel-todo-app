@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="32" height="32" fill="#1a1a1a"/>
+
+  <!-- Pixel border -->
+  <rect x="0" y="0" width="32" height="2" fill="#00ff41"/>
+  <rect x="0" y="30" width="32" height="2" fill="#00ff41"/>
+  <rect x="0" y="2" width="2" height="28" fill="#00ff41"/>
+  <rect x="30" y="2" width="2" height="28" fill="#00ff41"/>
+
+  <!-- Checkmark -->
+  <rect x="6" y="14" width="4" height="2" fill="#00ff41"/>
+  <rect x="10" y="16" width="2" height="2" fill="#00ff41"/>
+  <rect x="12" y="18" width="2" height="2" fill="#00ff41"/>
+  <rect x="14" y="16" width="2" height="2" fill="#00ff41"/>
+  <rect x="16" y="14" width="2" height="2" fill="#00ff41"/>
+  <rect x="18" y="12" width="2" height="2" fill="#00ff41"/>
+  <rect x="20" y="10" width="4" height="2" fill="#00ff41"/>
+
+  <!-- Pixel details -->
+  <rect x="4" y="4" width="2" height="2" fill="#8b5cf6"/>
+  <rect x="26" y="4" width="2" height="2" fill="#8b5cf6"/>
+  <rect x="4" y="26" width="2" height="2" fill="#8b5cf6"/>
+  <rect x="26" y="26" width="2" height="2" fill="#8b5cf6"/>
+</svg>

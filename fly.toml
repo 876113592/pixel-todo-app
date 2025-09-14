@@ -1,0 +1,48 @@
+app = "pixel-todo-app"
+primary_region = "hkg"  # Hong Kong region for better Asia access
+
+[build]
+dockerfile = "backend/Dockerfile"
+
+[env]
+DATABASE_URL = "sqlite:///./data/pixel_todos.db"
+FRONTEND_DIR = "/app/frontend"
+ENVIRONMENT = "production"
+
+[http_service]
+internal_port = 8000
+force_https = true
+auto_stop_machines = true
+auto_start_machines = true
+min_machines_running = 1
+
+[[services]]
+http_checks = []
+internal_port = 8000
+processes = ["app"]
+protocol = "tcp"
+script_checks = []
+
+[services.concurrency]
+hard_limit = 25
+soft_limit = 20
+type = "connections"
+
+[[services.ports]]
+force_https = true
+handlers = ["http"]
+port = 80
+
+[[services.ports]]
+handlers = ["tls", "http"]
+port = 443
+
+[[services.tcp_checks]]
+grace_period = "1s"
+interval = "15s"
+restart_limit = 0
+timeout = "2s"
+
+[[mounts]]
+source = "pixel_todo_data"
+destination = "/app/data"

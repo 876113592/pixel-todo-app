@@ -1,0 +1,21 @@
+{
+  "name": "Pixel Todo - 像素待办",
+  "short_name": "PixelTodo",
+  "description": "像素风待办事项应用 - 简洁高效的任务管理",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#00ff41",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "utilities"],
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/assets/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

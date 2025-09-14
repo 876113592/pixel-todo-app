@@ -1,0 +1,323 @@
+/* Mobile Responsive Styles */
+
+/* Base Mobile Styles */
+@media screen and (max-width: 768px) {
+    :root {
+        --spacing-xs: 6px;
+        --spacing-sm: 12px;
+        --spacing-md: 18px;
+        --spacing-lg: 24px;
+        --spacing-xl: 36px;
+
+        --font-xs: 11px;
+        --font-sm: 13px;
+        --font-md: 15px;
+        --font-lg: 18px;
+        --font-xl: 22px;
+        --font-xxl: 28px;
+    }
+
+    body {
+        font-size: var(--font-md);
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
+
+    .app-container {
+        padding: var(--spacing-sm);
+        max-width: 100%;
+    }
+
+    /* Header Mobile */
+    .app-header {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .header-content {
+        padding: var(--spacing-md);
+    }
+
+    .app-title {
+        font-size: var(--font-xl);
+        gap: var(--spacing-xs);
+    }
+
+    .pixel-icon {
+        font-size: var(--font-lg);
+    }
+
+    .stats-display {
+        font-size: var(--font-xs);
+        flex-wrap: wrap;
+        gap: var(--spacing-xs);
+    }
+
+    /* Form Mobile */
+    .add-todo-form {
+        padding: var(--spacing-md);
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .form-options {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .todo-input {
+        height: 48px; /* Minimum touch target */
+        font-size: var(--font-md);
+    }
+
+    .todo-textarea {
+        min-height: 100px;
+        font-size: var(--font-md);
+    }
+
+    .priority-select, .due-date-input {
+        min-height: 44px;
+        font-size: var(--font-sm);
+    }
+
+    /* Mobile date input fixes */
+    .due-date-input {
+        -webkit-appearance: none;
+        appearance: none;
+        background: #0f0f0f;
+        border: 1px solid var(--border-light);
+        color: var(--text-primary);
+        padding: 12px;
+        border-radius: 0;
+        font-family: inherit;
+    }
+
+    .due-date-input:focus {
+        border-color: var(--accent-primary);
+        outline: none;
+    }
+
+    .due-date-input::-webkit-calendar-picker-indicator {
+        background: none;
+        color: var(--accent-primary);
+        cursor: pointer;
+        padding: 4px;
+        filter: invert(1) brightness(1.5);
+    }
+
+    /* Filter Mobile */
+    .filters-section {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: stretch;
+    }
+
+    .filter-tabs {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .priority-filters {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    /* Todo Items Mobile */
+    .todo-item {
+        padding: var(--spacing-md);
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .todo-content {
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .todo-checkbox {
+        width: 28px;
+        height: 28px;
+        margin-top: 0;
+    }
+
+    .todo-title {
+        font-size: var(--font-md);
+        line-height: 1.3;
+    }
+
+    .todo-description {
+        font-size: var(--font-sm);
+        line-height: 1.4;
+    }
+
+    .todo-meta {
+        gap: var(--spacing-sm);
+        flex-wrap: wrap;
+    }
+
+    .todo-actions {
+        margin-left: 0;
+        justify-content: flex-end;
+        gap: var(--spacing-sm);
+    }
+
+    /* Button Mobile */
+    .pixel-btn {
+        min-height: 44px;
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-sm);
+        touch-action: manipulation;
+    }
+
+    .pixel-btn.small {
+        min-height: 36px;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: var(--font-xs);
+    }
+
+    /* Modal Mobile */
+    .modal-overlay {
+        padding: var(--spacing-sm);
+    }
+
+    .modal-content {
+        max-height: 90vh;
+        padding: var(--spacing-lg);
+    }
+
+    .modal-header h3 {
+        font-size: var(--font-md);
+    }
+
+    .close-btn {
+        width: 40px;
+        height: 40px;
+        font-size: var(--font-xl);
+    }
+
+    .modal-actions {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .modal-actions .pixel-btn {
+        width: 100%;
+    }
+
+    /* Toast Mobile */
+    .toast-container {
+        left: var(--spacing-sm);
+        right: var(--spacing-sm);
+        transform: none;
+        width: auto;
+    }
+
+    .toast {
+        max-width: none;
+        width: 100%;
+    }
+
+    /* Loading State Mobile */
+    .loading-state {
+        padding: var(--spacing-lg);
+    }
+
+    .empty-state {
+        padding: var(--spacing-lg);
+    }
+
+    .empty-icon {
+        font-size: var(--font-xl);
+        margin-bottom: var(--spacing-sm);
+    }
+}
+
+/* Touch-Specific Styles */
+@media (hover: none) and (pointer: coarse) {
+    /* Remove hover effects on touch devices */
+    .pixel-btn:hover {
+        background: var(--bg-primary);
+        box-shadow: 0 0 0 var(--border-width) var(--border-color);
+    }
+
+    .pixel-btn.primary:hover {
+        background: var(--accent-primary);
+        box-shadow: 0 0 0 var(--border-width) var(--accent-primary);
+    }
+
+    .pixel-btn.secondary:hover {
+        background: var(--accent-secondary);
+        box-shadow: 0 0 0 var(--border-width) var(--accent-secondary);
+    }
+
+    .todo-item:hover {
+        border-color: var(--border-color);
+        box-shadow: none;
+    }
+
+    .pixel-card:hover {
+        box-shadow: 0 0 0 var(--border-width) var(--border-color);
+    }
+
+    /* Enhanced active states for touch */
+    .pixel-btn:active {
+        background: var(--border-light);
+        transform: scale(0.98);
+    }
+
+    .pixel-btn.primary:active {
+        background: #00aa22;
+        transform: scale(0.98);
+    }
+
+    .todo-item:active {
+        background: #222222;
+        transform: scale(0.99);
+    }
+}
+
+/* Small Mobile (Portrait) */
+@media screen and (max-width: 480px) {
+    .app-container {
+        padding: var(--spacing-xs);
+    }
+
+    .header-content {
+        padding: var(--spacing-sm);
+    }
+
+    .add-todo-form {
+        padding: var(--spacing-sm);
+    }
+
+    .todo-item {
+        padding: var(--spacing-sm);
+    }
+
+    .modal-content {
+        padding: var(--spacing-md);
+    }
+
+    .app-title {
+        font-size: var(--font-lg);
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+
+    .stats-display {
+        margin-top: var(--spacing-sm);
+    }
+}
+
+/* Focus Visible for Keyboard Navigation */
+.pixel-btn:focus-visible,
+.todo-input:focus-visible,
+.todo-textarea:focus-visible,
+.priority-select:focus-visible,
+.due-date-input:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}

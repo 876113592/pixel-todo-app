@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="像素风待办事项应用 - 简洁高效的任务管理">
+    <title>Pixel Todo - 像素待办</title>
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pixel Todo">
+
+    <!-- PWA Icons -->
+    <link rel="apple-touch-icon" href="/assets/icons/icon.svg">
+    <link rel="icon" type="image/svg+xml" href="/assets/icons/icon.svg">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/pixel.css">
+    <link rel="stylesheet" href="/css/mobile.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app" class="app-container">
+
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <span class="pixel-icon">◖</span>
+                    Pixel Todo
+                    <span class="pixel-icon">◗</span>
+                </h1>
+                <div class="stats-display" id="statsDisplay">
+                    <span class="stat-item" id="totalCount">0 个任务</span>
+                    <span class="stat-divider">|</span>
+                    <span class="stat-item" id="completionRate">0%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Add Todo Form -->
+        <section class="add-todo-section">
+            <form id="addTodoForm" class="add-todo-form">
+                <div class="form-row">
+                    <input
+                        type="text"
+                        id="todoTitle"
+                        class="todo-input"
+                        placeholder="添加新任务..."
+                        required
+                        maxlength="200"
+                        autocomplete="off"
+                    >
+                    <button type="submit" class="add-btn pixel-btn primary">
+                        <span class="btn-text">添加</span>
+                    </button>
+                </div>
+                <div class="form-row form-options">
+                    <select id="todoPriority" class="priority-select pixel-select">
+                        <option value="low">低优先级</option>
+                        <option value="medium" selected>中优先级</option>
+                        <option value="high">高优先级</option>
+                    </select>
+                    <button type="button" id="expandFormBtn" class="expand-btn pixel-btn secondary">
+                        <span class="btn-text">详情</span>
+                    </button>
+                </div>
+                <div id="expandedForm" class="expanded-form" style="display: none;">
+                    <textarea
+                        id="todoDescription"
+                        class="todo-textarea"
+                        placeholder="任务描述（可选）..."
+                        maxlength="500"
+                    ></textarea>
+                    <div class="date-input-wrapper">
+                        <input
+                            type="datetime-local"
+                            id="todoDueDate"
+                            class="due-date-input"
+                            title="设置截止日期和时间"
+                        >
+                        <small class="date-hint">设置截止时间（可选）</small>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- Filters -->
+        <section class="filters-section">
+            <div class="filter-tabs">
+                <button class="filter-tab pixel-btn active" data-filter="all">
+                    <span class="btn-text">全部</span>
+                </button>
+                <button class="filter-tab pixel-btn" data-filter="pending">
+                    <span class="btn-text">待办</span>
+                </button>
+                <button class="filter-tab pixel-btn" data-filter="completed">
+                    <span class="btn-text">已完成</span>
+                </button>
+            </div>
+            <div class="priority-filters">
+                <button class="priority-filter pixel-btn small" data-priority="high">
+                    <span class="priority-indicator high"></span>
+                    <span class="btn-text">高</span>
+                </button>
+                <button class="priority-filter pixel-btn small" data-priority="medium">
+                    <span class="priority-indicator medium"></span>
+                    <span class="btn-text">中</span>
+                </button>
+                <button class="priority-filter pixel-btn small" data-priority="low">
+                    <span class="priority-indicator low"></span>
+                    <span class="btn-text">低</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Todo List -->
+        <main class="todos-main">
+            <div id="todosContainer" class="todos-container">
+                <!-- Loading State -->
+                <div id="loadingState" class="loading-state">
+                    <div class="pixel-spinner"></div>
+                    <p>加载中...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <div class="empty-icon">◫</div>
+                    <h3>暂无任务</h3>
+                    <p>添加你的第一个任务开始使用吧！</p>
+                </div>
+
+                <!-- Todo Items Container -->
+                <div id="todosList" class="todos-list">
+                    <!-- Todo items will be inserted here dynamically -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Offline Indicator -->
+        <div id="offlineIndicator" class="offline-indicator" style="display: none;">
+            <span class="offline-icon">◐</span>
+            <span class="offline-text">离线模式</span>
+        </div>
+
+        <!-- Toast Messages -->
+        <div id="toastContainer" class="toast-container"></div>
+    </div>
+
+    <!-- Todo Item Template -->
+    <template id="todoItemTemplate">
+        <div class="todo-item pixel-card" data-todo-id="">
+            <div class="todo-content">
+                <button class="todo-checkbox pixel-checkbox" data-action="toggle">
+                    <span class="checkbox-icon"></span>
+                </button>
+                <div class="todo-text">
+                    <h3 class="todo-title"></h3>
+                    <p class="todo-description"></p>
+                    <div class="todo-meta">
+                        <span class="todo-priority"></span>
+                        <span class="todo-date"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="todo-actions">
+                <button class="action-btn edit-btn pixel-btn small secondary" data-action="edit">
+                    <span class="btn-text">编辑</span>
+                </button>
+                <button class="action-btn delete-btn pixel-btn small danger" data-action="delete">
+                    <span class="btn-text">删除</span>
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Edit Todo Modal Template -->
+    <template id="editModalTemplate">
+        <div class="modal-overlay">
+            <div class="modal-content pixel-card">
+                <div class="modal-header">
+                    <h3>编辑任务</h3>
+                    <button class="close-btn pixel-btn small" data-action="close">×</button>
+                </div>
+                <form class="edit-todo-form">
+                    <input type="text" class="todo-input" name="title" required maxlength="200">
+                    <textarea class="todo-textarea" name="description" maxlength="500"></textarea>
+                    <div class="form-row">
+                        <select class="priority-select pixel-select" name="priority">
+                            <option value="low">低优先级</option>
+                            <option value="medium">中优先级</option>
+                            <option value="high">高优先级</option>
+                        </select>
+                        <div class="date-input-wrapper">
+                            <input
+                                type="datetime-local"
+                                class="due-date-input"
+                                name="due_date"
+                                title="设置截止日期和时间"
+                            >
+                            <small class="date-hint">设置截止时间（可选）</small>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="pixel-btn secondary" data-action="cancel">取消</button>
+                        <button type="submit" class="pixel-btn primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </template>
+
+    <!-- Scripts -->
+    <script src="/js/storage.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/gestures.js"></script>
+    <script src="/js/animations.js"></script>
+    <script src="/js/app.js"></script>
+
+    <!-- PWA Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
