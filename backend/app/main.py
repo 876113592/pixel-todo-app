@@ -52,7 +52,14 @@ class UTF8StaticFiles(StaticFiles):
         return response
 
 # Serve static files (frontend) with UTF-8 encoding
-app.mount("/", UTF8StaticFiles(directory="../frontend", html=True), name="static")
+frontend_dir = os.getenv("FRONTEND_DIR", "../frontend")
+if not os.path.exists(frontend_dir):
+    # Try different paths for Railway deployment
+    frontend_dir = "frontend"
+    if not os.path.exists(frontend_dir):
+        frontend_dir = "./frontend"
+
+app.mount("/", UTF8StaticFiles(directory=frontend_dir, html=True), name="static")
 
 @app.get("/api/health")
 async def health_check():
