@@ -3,11 +3,3 @@ builder = "NIXPACKS"
 
 [deploy]
 startCommand = "python main.py"
-restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 10
-
-[variables]
-DATABASE_URL = "sqlite:///./data/pixel_todos.db"
-FRONTEND_DIR = "frontend"
-ENVIRONMENT = "production"
-PORT = "8080"
