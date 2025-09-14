@@ -51,32 +51,29 @@ class UTF8StaticFiles(StaticFiles):
 
         return response
 
-# Serve static files (frontend) with UTF-8 encoding
-# First, determine the correct frontend path
-possible_paths = [
-    os.getenv("FRONTEND_DIR", ""),
-    "frontend",
-    "./frontend",
-    "../frontend",
-    "/app/frontend"
-]
-
-frontend_dir = None
-for path in possible_paths:
-    if path and os.path.exists(path):
-        frontend_dir = path
-        print(f"Found frontend directory: {frontend_dir}")
-        break
-
-if frontend_dir:
-    app.mount("/", UTF8StaticFiles(directory=frontend_dir, html=True), name="static")
-    print(f"Static files mounted from: {frontend_dir}")
-else:
-    print("Warning: Frontend directory not found, static files not mounted")
-    # Add a simple root endpoint for testing
-    @app.get("/")
-    async def root():
-        return {"message": "Pixel Todo API is running", "frontend": "not found"}
+# Add a simple root endpoint for testing
+@app.get("/")
+async def root():
+    return HTMLResponse("""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>🎮 Pixel Todo App</title>
+        <style>
+            body { font-family: monospace; background: #1a1a1a; color: #00ff41; padding: 20px; }
+            h1 { color: #8b5cf6; }
+            a { color: #00ff41; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+        </style>
+    </head>
+    <body>
+        <h1>🎮 Pixel Todo App</h1>
+        <p>✅ API服务正在运行！</p>
+        <p>📋 <a href="/api/health">健康检查</a></p>
+        <p>🔧 前端文件正在修复中...</p>
+    </body>
+    </html>
+    """)
 
 @app.get("/api/health")
 async def health_check():
