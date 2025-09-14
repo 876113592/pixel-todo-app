@@ -8,5 +8,6 @@ restartPolicyMaxRetries = 10
 
 [variables]
 DATABASE_URL = "sqlite:///./data/pixel_todos.db"
-FRONTEND_DIR = "/opt/railway/frontend"
+FRONTEND_DIR = "frontend"
 ENVIRONMENT = "production"
+PORT = "8080"

@@ -52,14 +52,31 @@ class UTF8StaticFiles(StaticFiles):
         return response
 
 # Serve static files (frontend) with UTF-8 encoding
-frontend_dir = os.getenv("FRONTEND_DIR", "../frontend")
-if not os.path.exists(frontend_dir):
-    # Try different paths for Railway deployment
-    frontend_dir = "frontend"
-    if not os.path.exists(frontend_dir):
-        frontend_dir = "./frontend"
+# First, determine the correct frontend path
+possible_paths = [
+    os.getenv("FRONTEND_DIR", ""),
+    "frontend",
+    "./frontend",
+    "../frontend",
+    "/app/frontend"
+]
 
-app.mount("/", UTF8StaticFiles(directory=frontend_dir, html=True), name="static")
+frontend_dir = None
+for path in possible_paths:
+    if path and os.path.exists(path):
+        frontend_dir = path
+        print(f"Found frontend directory: {frontend_dir}")
+        break
+
+if frontend_dir:
+    app.mount("/", UTF8StaticFiles(directory=frontend_dir, html=True), name="static")
+    print(f"Static files mounted from: {frontend_dir}")
+else:
+    print("Warning: Frontend directory not found, static files not mounted")
+    # Add a simple root endpoint for testing
+    @app.get("/")
+    async def root():
+        return {"message": "Pixel Todo API is running", "frontend": "not found"}
 
 @app.get("/api/health")
 async def health_check():
