@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: pixel-todo-app
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python main.py"
+    plan: free
+    environmentVariables:
+      - key: PYTHON_VERSION
+        value: 3.11.5
+      - key: ENVIRONMENT
+        value: production
