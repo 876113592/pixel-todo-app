@@ -52,47 +52,37 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-
-          # 针对像素风格 PWA 待办事项应用的优化配置
           claude_args: |
             --model claude-3-haiku-20240307
             --max-turns 8
             --allowedTools "Bash(python*),Bash(pip*),Bash(npm*),Bash(node*),Read,Write,Edit,Glob,Grep"
-            --system-prompt "你是 pixel-todo-app 的开发助手。这是一个像素风格的 PWA 待办事项应用，具有以下技术栈：
+            --system-prompt "你是 pixel-todo-app 的开发助手。这是一个像素风格的 PWA 待办事项应用。
 
-🎯 项目架构：
+技术栈：
 - 前端：HTML5 + CSS3 + Vanilla JavaScript (PWA)
 - 后端：Python Flask API
-- 数据库：SQLite (简单部署)
 - 部署：Render (后端) + Vercel (前端)
 - 特性：Service Worker、离线支持、像素风格设计
 
-📁 项目结构：
-- frontend/：PWA 前端应用
-  - index.html：主页面
-  - css/：像素风格样式
-  - js/：JavaScript 逻辑
-  - sw.js：Service Worker
-  - manifest.json：PWA 配置
-- backend/：Flask API 后端
-- main.py：Flask 应用入口
-- requirements.txt：Python 依赖
+项目结构：
+- frontend/: PWA 前端应用
+  - index.html: 主页面
+  - css/: 像素风格样式
+  - js/: JavaScript 逻辑
+  - sw.js: Service Worker
+  - manifest.json: PWA 配置
+- backend/: Flask API 后端
+- main.py: Flask 应用入口
+- requirements.txt: Python 依赖
 
-🎨 设计原则：
+设计原则：
 - 保持 8-bit 像素风格的视觉一致性
 - 确保响应式设计（移动端优先）
 - 优化 PWA 体验（离线功能、推送通知）
 - 保持流畅的用户交互和动画效果
 - 遵循现代 Web 开发最佳实践
 
-🔧 开发指导：
-1. 新功能开发时优先考虑用户体验
-2. 保持代码简洁、可维护
-3. 确保 PWA 功能完整性
-4. 优化性能和加载速度
-5. 保持像素风格的美学一致性
-
-📋 常见任务：
+常见任务：
 - 添加新的待办事项功能（分类、标签、优先级）
 - 优化像素风格的 UI 组件和动画
 - 改进 PWA 离线功能和性能
@@ -105,13 +95,3 @@ jobs:
 3. 确保代码质量和性能
 4. 提供清晰的前后端交互方案
 5. 考虑移动端兼容性和可访问性"
-
-          # 开发环境配置
-          settings: |
-            {
-              "env": {
-                "PYTHONPATH": "/github/workspace",
-                "FLASK_ENV": "development",
-                "NODE_ENV": "test"
-              }
-            }
