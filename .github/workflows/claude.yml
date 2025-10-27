@@ -1,117 +1,117 @@
 name: Claude Code - pixel-todo-app
 
-  on:
-    issue_comment:
-      types: [created]
-    pull_request_review_comment:
-      types: [created]
-    issues:
-      types: [opened, assigned]
-    pull_request_review:
-      types: [submitted]
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned]
+  pull_request_review:
+    types: [submitted]
 
-  jobs:
-    claude:
-      if: |
-        (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
-        (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
-        (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
-        (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
-      runs-on: ubuntu-latest
-      permissions:
-        contents: write
-        pull-requests: write
-        issues: write
-        id-token: write
-        actions: read
+jobs:
+  claude:
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
 
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v5
-          with:
-            fetch-depth: 1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
 
-        - name: Setup Python
-          uses: actions/setup-python@v4
-          with:
-            python-version: '3.9'
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
 
-        - name: Setup Node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: '18'
-            cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
 
-        - name: Install Python dependencies
-          run: |
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-        - name: Run Claude Code
-          id: claude
-          uses: anthropics/claude-code-action@v1
-          with:
-            anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+      - name: Run Claude Code
+        id: claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
-            # 针对像素风格 PWA 待办事项应用的优化配置
-            claude_args: |
-              --model claude-3-haiku-20240307
-              --max-turns 8
-              --allowedTools "Bash(python*),Bash(pip*),Bash(npm*),Bash(node*),Read,Write,Edit,Glob,Grep"
-              --system-prompt "你是 pixel-todo-app 的开发助手。这是一个像素风格的 PWA 待办事项应用，具有以下技术栈：
+          # 针对像素风格 PWA 待办事项应用的优化配置
+          claude_args: |
+            --model claude-3-haiku-20240307
+            --max-turns 8
+            --allowedTools "Bash(python*),Bash(pip*),Bash(npm*),Bash(node*),Read,Write,Edit,Glob,Grep"
+            --system-prompt "你是 pixel-todo-app 的开发助手。这是一个像素风格的 PWA 待办事项应用，具有以下技术栈：
 
-  🎯 项目架构：
-  - 前端：HTML5 + CSS3 + Vanilla JavaScript (PWA)
-  - 后端：Python Flask API
-  - 数据库：SQLite (简单部署)
-  - 部署：Render (后端) + Vercel (前端)
-  - 特性：Service Worker、离线支持、像素风格设计
+🎯 项目架构：
+- 前端：HTML5 + CSS3 + Vanilla JavaScript (PWA)
+- 后端：Python Flask API
+- 数据库：SQLite (简单部署)
+- 部署：Render (后端) + Vercel (前端)
+- 特性：Service Worker、离线支持、像素风格设计
 
-  📁 项目结构：
-  - frontend/：PWA 前端应用
-    - index.html：主页面
-    - css/：像素风格样式
-    - js/：JavaScript 逻辑
-    - sw.js：Service Worker
-    - manifest.json：PWA 配置
-  - backend/：Flask API 后端
-  - main.py：Flask 应用入口
-  - requirements.txt：Python 依赖
+📁 项目结构：
+- frontend/：PWA 前端应用
+  - index.html：主页面
+  - css/：像素风格样式
+  - js/：JavaScript 逻辑
+  - sw.js：Service Worker
+  - manifest.json：PWA 配置
+- backend/：Flask API 后端
+- main.py：Flask 应用入口
+- requirements.txt：Python 依赖
 
-  🎨 设计原则：
-  - 保持 8-bit 像素风格的视觉一致性
-  - 确保响应式设计（移动端优先）
-  - 优化 PWA 体验（离线功能、推送通知）
-  - 保持流畅的用户交互和动画效果
-  - 遵循现代 Web 开发最佳实践
+🎨 设计原则：
+- 保持 8-bit 像素风格的视觉一致性
+- 确保响应式设计（移动端优先）
+- 优化 PWA 体验（离线功能、推送通知）
+- 保持流畅的用户交互和动画效果
+- 遵循现代 Web 开发最佳实践
 
-  🔧 开发指导：
-  1. 新功能开发时优先考虑用户体验
-  2. 保持代码简洁、可维护
-  3. 确保 PWA 功能完整性
-  4. 优化性能和加载速度
-  5. 保持像素风格的美学一致性
+🔧 开发指导：
+1. 新功能开发时优先考虑用户体验
+2. 保持代码简洁、可维护
+3. 确保 PWA 功能完整性
+4. 优化性能和加载速度
+5. 保持像素风格的美学一致性
 
-  📋 常见任务：
-  - 添加新的待办事项功能（分类、标签、优先级）
-  - 优化像素风格的 UI 组件和动画
-  - 改进 PWA 离线功能和性能
-  - API 接口开发和数据库设计
-  - 部署配置和 CI/CD 优化
+📋 常见任务：
+- 添加新的待办事项功能（分类、标签、优先级）
+- 优化像素风格的 UI 组件和动画
+- 改进 PWA 离线功能和性能
+- API 接口开发和数据库设计
+- 部署配置和 CI/CD 优化
 
-  当处理代码时，请：
-  1. 分析现有代码结构和设计模式
-  2. 保持像素风格和 PWA 特性
-  3. 确保代码质量和性能
-  4. 提供清晰的前后端交互方案
-  5. 考虑移动端兼容性和可访问性"
+当处理代码时，请：
+1. 分析现有代码结构和设计模式
+2. 保持像素风格和 PWA 特性
+3. 确保代码质量和性能
+4. 提供清晰的前后端交互方案
+5. 考虑移动端兼容性和可访问性"
 
-            # 开发环境配置
-            settings: |
-              {
-                "env": {
-                  "PYTHONPATH": "/github/workspace",
-                  "FLASK_ENV": "development",
-                  "NODE_ENV": "test"
-                }
+          # 开发环境配置
+          settings: |
+            {
+              "env": {
+                "PYTHONPATH": "/github/workspace",
+                "FLASK_ENV": "development",
+                "NODE_ENV": "test"
               }
+            }
